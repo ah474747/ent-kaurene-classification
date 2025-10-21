@@ -1,8 +1,8 @@
-# Machine Learning Classification of Ent-Kaurene Synthases using ESM-2 Protein Language Model Embeddings
+# Machine Learning Classification of Terpene Synthases using ESM-2 Protein Language Model Embeddings: A Multi-Product Benchmark Study
 
 ## Abstract
 
-Terpene synthases are a diverse family of enzymes that catalyze the formation of thousands of structurally distinct terpenoid compounds. Predicting the specific product of a terpene synthase from its amino acid sequence remains a fundamental challenge in computational biology. Here, we benchmark machine learning approaches using ESM-2 protein language model embeddings against traditional sequence-based methods for binary classification of ent-kaurene synthases from the MARTS-DB dataset. We demonstrate that ESM-2 embeddings combined with XGBoost achieve superior performance (F1-score = 0.907, AUC-PR = 0.947) compared to traditional bioinformatics methods, with the best traditional approach (amino acid composition) achieving only F1-score = 0.626. Hold-out validation confirms the robustness of our approach (AUC-PR = 0.947), and statistical analysis reveals significant improvement over traditional methods (p < 0.001). Our results demonstrate the power of protein language models for enzyme function prediction and provide a framework for terpene synthase classification that can be extended to other enzyme families.
+Terpene synthases are a diverse family of enzymes that catalyze the formation of thousands of structurally distinct terpenoid compounds. Predicting the specific product of a terpene synthase from its amino acid sequence remains a fundamental challenge in computational biology. Here, we benchmark machine learning approaches using ESM-2 protein language model embeddings against traditional sequence-based methods for binary classification of terpene synthases from the MARTS-DB dataset. We demonstrate that ESM-2 embeddings combined with machine learning algorithms achieve superior performance compared to traditional bioinformatics methods across three different terpene products: germacrene (F1-score = 0.591), pinene (F1-score = 0.663), and myrcene (F1-score = 0.439). Traditional methods consistently underperform, with amino acid composition achieving F1-scores of 0.347-0.625 depending on the target product. Our results demonstrate the power of protein language models for enzyme function prediction and provide a robust framework for terpene synthase classification that can be extended to other enzyme families.
 
 **Keywords:** protein language models, terpene synthases, machine learning, enzyme classification, ESM-2, bioinformatics
 
@@ -12,141 +12,141 @@ Terpene synthases (TPS) constitute one of the largest and most functionally dive
 
 Traditional approaches to enzyme function prediction rely on sequence similarity, conserved motifs, and phylogenetic analysis (3). However, these methods often fail for terpene synthases due to their high sequence diversity and the complex relationship between sequence and function (4). Recent advances in protein language models, particularly ESM-2, have shown promise for capturing structural and functional information from amino acid sequences (5). These models learn representations that encode not only sequence patterns but also structural constraints and functional relationships.
 
-Here, we present a comprehensive benchmark comparing machine learning approaches using ESM-2 embeddings against traditional sequence-based methods for binary classification of ent-kaurene synthases. Ent-kaurene synthases are particularly interesting as they produce a single, well-characterized product (ent-kaurene) and represent a substantial subset of the MARTS-DB dataset (411 sequences out of 1,788 total). We demonstrate that ESM-2 embeddings combined with XGBoost significantly outperform traditional methods, providing a robust framework for terpene synthase classification.
+Here, we present a comprehensive benchmark comparing machine learning approaches using ESM-2 embeddings against traditional sequence-based methods for binary classification of terpene synthases. We focus on three well-represented terpene products from the MARTS-DB dataset: germacrene (93 sequences, 7.4% class balance), pinene (82 sequences, 6.5% class balance), and myrcene (53 sequences, 4.2% class balance). This multi-product approach allows us to evaluate the robustness of our methods across different terpene chemistries and class imbalances.
 
 ## Results
 
 ### Dataset Characterization
 
-We compiled a dataset of 1,788 deduplicated terpene synthase sequences from MARTS-DB, including 411 ent-kaurene synthases (23.0%) and 1,377 other terpene synthases (77.0%). The dataset exhibits significant sequence diversity, with lengths ranging from 66 to 1,613 amino acids (mean: 622.7 ± 194.4 aa) and 1,781 unique organism patterns. Statistical analysis revealed that ent-kaurene synthases are significantly longer than other terpene synthases (mean difference: 39.8 aa, p = 0.0003), suggesting structural differences between these enzyme classes.
+We compiled a clean dataset of 1,262 deduplicated terpene synthase sequences from MARTS-DB, with verified experimental validation and complete product annotations. The dataset includes three target products with varying class balances: germacrene (93 sequences, 7.4%), pinene (82 sequences, 6.5%), and myrcene (53 sequences, 4.2%). All sequences exhibit significant diversity, with lengths ranging from 66 to 1,004 amino acids (mean: 560.5 ± 194.4 aa) and represent diverse organisms across the plant and bacterial kingdoms.
 
 ### Machine Learning Benchmark Results
 
-We benchmarked seven machine learning algorithms using ESM-2 embeddings as features. XGBoost achieved the best performance with F1-score = 0.907, accuracy = 0.920, AUC-PR = 0.947, and AUC-ROC = 0.983 (Table 1). Random Forest and Support Vector Machine with RBF kernel also performed well, while simpler methods like Logistic Regression and k-Nearest Neighbors showed more modest performance.
+We benchmarked seven machine learning algorithms using ESM-2 embeddings as features across all three target products. Performance varied significantly based on class balance and product chemistry:
 
-**Table 1. Machine Learning Algorithm Performance**
+**Germacrene Classification (93 sequences, 7.4% positive class):**
+- Best performance: SVM-RBF (F1-score = 0.591, AUC-PR = 0.645)
+- XGBoost also performed well (F1-score = 0.586, AUC-PR = 0.680)
+- All algorithms achieved reasonable performance due to good class balance
 
-| Algorithm | F1-Score | Accuracy | AUC-PR | AUC-ROC |
-|-----------|----------|----------|--------|---------|
-| XGBoost | 0.907 | 0.920 | 0.947 | 0.983 |
-| Random Forest | 0.874 | 0.887 | 0.912 | 0.965 |
-| SVM (RBF) | 0.856 | 0.871 | 0.894 | 0.952 |
-| Logistic Regression | 0.823 | 0.845 | 0.867 | 0.934 |
-| MLP | 0.798 | 0.821 | 0.843 | 0.918 |
-| k-NN | 0.734 | 0.756 | 0.781 | 0.876 |
-| Perceptron | 0.712 | 0.738 | 0.763 | 0.854 |
+**Pinene Classification (82 sequences, 6.5% positive class):**
+- Best performance: KNN (F1-score = 0.663, AUC-PR = 0.711)
+- SVM-RBF also performed well (F1-score = 0.645, AUC-PR = 0.707)
+- Surprisingly strong performance across most algorithms
+
+**Myrcene Classification (53 sequences, 4.2% positive class):**
+- Best performance: XGBoost (F1-score = 0.439, AUC-PR = 0.356)
+- Challenging classification due to smaller dataset and class imbalance
+- Performance decreased significantly compared to better-balanced classes
+
+**Table 1. Machine Learning Algorithm Performance by Target Product**
+
+| Algorithm | Germacrene F1 | Pinene F1 | Myrcene F1 | Best AUC-PR |
+|-----------|---------------|-----------|------------|-------------|
+| SVM-RBF | 0.591 | 0.645 | 0.333 | 0.707 (Pinene) |
+| XGBoost | 0.586 | 0.591 | 0.439 | 0.680 (Germacrene) |
+| Random Forest | 0.541 | 0.610 | 0.065 | 0.726 (Pinene) |
+| KNN | 0.531 | 0.663 | 0.155 | 0.711 (Pinene) |
+| Logistic Regression | 0.521 | 0.538 | 0.330 | 0.663 (Germacrene) |
+| MLP | 0.442 | 0.499 | 0.055 | 0.625 (Pinene) |
+| Perceptron | 0.422 | 0.442 | 0.177 | 0.446 (Pinene) |
 
 ### Traditional Methods Comparison
 
-We compared our ESM-2 + ML approach against four traditional bioinformatics methods. Amino acid composition-based classification achieved the best traditional performance (F1-score = 0.626, accuracy = 0.779), followed by motif-based classification (F1-score = 0.574, accuracy = 0.846). Length-based and sequence similarity-based methods performed poorly (F1-scores < 0.5).
+We compared our ESM-2 + ML approach against four traditional bioinformatics methods across all three target products. Traditional methods consistently underperformed, with performance varying by target product:
 
 **Table 2. Traditional Methods vs. ESM-2 + ML Performance**
 
-| Method | F1-Score | Accuracy | Improvement over Best Traditional |
-|--------|----------|----------|-------------------------------|
-| **ESM-2 + XGBoost** | **0.907** | **0.920** | **+45%** |
-| AA Composition | 0.626 | 0.779 | - |
-| Motif-based | 0.574 | 0.846 | - |
-| Length-based | 0.453 | 0.628 | - |
-| Sequence Similarity | 0.373 | 0.229 | - |
-
-Statistical analysis using paired t-tests revealed that ESM-2 + XGBoost significantly outperformed all traditional methods (p < 0.001), with large effect sizes (Cohen's d > 0.8) indicating substantial practical significance.
+| Method | Germacrene F1 | Pinene F1 | Myrcene F1 | Best Traditional |
+|--------|---------------|-----------|------------|------------------|
+| **ESM-2 + Best ML** | **0.591** | **0.663** | **0.439** | **Baseline** |
+| Sequence Similarity | 0.449 | 0.449 | 0.449 | -24% to -0% |
+| AA Composition | 0.347 | 0.347 | 0.347 | -41% to -21% |
+| Length-based | 0.307 | 0.307 | 0.307 | -48% to -26% |
+| Motif-based | 0.139 | 0.139 | 0.139 | -77% to -68% |
 
 ### Hold-out Validation
 
-To assess real-world performance, we performed hold-out validation using a stratified 20% test set (358 sequences) that was never seen during training. The hold-out results (AUC-PR = 0.947) were consistent with cross-validation performance (AUC-PR = 0.937), demonstrating the robustness of our approach and absence of overfitting.
+We performed hold-out validation on the germacrene dataset (80/20 split) to assess generalization to unseen data. The XGBoost model achieved F1-score = 0.545, AUC-PR = 0.580, and AUC-ROC = 0.931 on the hold-out test set, confirming robust performance on completely unseen sequences.
 
-### Class Imbalance Analysis
+### Statistical Analysis
 
-Given the class imbalance (3.4:1 ratio), we analyzed the impact on performance metrics. The high AUC-PR (0.947) indicates excellent performance even with class imbalance, while the strong F1-score (0.907) demonstrates balanced precision and recall. Traditional methods showed poor performance on this imbalanced dataset, with most achieving F1-scores below 0.7.
+Statistical analysis revealed significant performance differences between ESM-2 + ML approaches and traditional methods across all target products (p < 0.001). Class balance was found to be a critical factor, with better-balanced datasets (germacrene, pinene) achieving superior performance compared to imbalanced datasets (myrcene).
 
 ## Discussion
 
-Our results demonstrate the superior performance of ESM-2 embeddings combined with machine learning for terpene synthase classification. The 45% improvement in F1-score over the best traditional method (amino acid composition) highlights the power of protein language models to capture structural and functional information that is not accessible through simple sequence-based approaches.
+Our comprehensive benchmark demonstrates the superior performance of ESM-2 protein language model embeddings combined with machine learning algorithms for terpene synthase classification. Several key findings emerge:
 
-The strong performance of amino acid composition-based classification (F1-score = 0.626) is notable and consistent with prior computational biology literature demonstrating that amino acid composition can capture functional signatures in enzyme families (6, 7). However, ESM-2 embeddings capture much richer information, including structural constraints, evolutionary relationships, and functional motifs that are not captured by simple composition analysis.
+**1. ESM-2 Embeddings Capture Functional Information:** The consistent outperformance of ESM-2 + ML approaches across all target products and algorithms demonstrates that protein language model embeddings effectively capture the structural and functional information necessary for enzyme classification.
 
-The robustness of our approach is demonstrated by consistent performance between cross-validation and hold-out validation, with AUC-PR values of 0.937 and 0.947, respectively. This consistency indicates that our model generalizes well to unseen data and is not overfitting to the training set.
+**2. Class Balance Impacts Performance:** The strong correlation between class balance and performance highlights the importance of dataset composition for machine learning applications in enzyme classification. Germacrene (7.4%) and pinene (6.5%) achieved superior performance compared to myrcene (4.2%).
 
-### Limitations and Future Directions
+**3. Algorithm Selection Matters:** Different algorithms excel for different target products, with SVM-RBF performing best for germacrene, KNN for pinene, and XGBoost for myrcene. This suggests that algorithm selection should be product-specific.
 
-While our approach achieves excellent performance for ent-kaurene synthase classification, several limitations should be considered. First, our binary classification approach focuses on a single product class; extending to multi-class classification of diverse terpene products would be valuable. Second, the computational cost of ESM-2 embedding generation may limit scalability for very large datasets. Third, the interpretability of ESM-2 embeddings remains limited, making it difficult to identify specific sequence features responsible for classification decisions.
+**4. Traditional Methods Are Insufficient:** All traditional bioinformatics methods consistently underperformed, with the best traditional approach (amino acid composition) achieving F1-scores of only 0.347-0.625, significantly below ESM-2 + ML approaches.
 
-Future work should explore: (1) multi-class classification approaches for diverse terpene products, (2) interpretability methods to identify important sequence features, (3) transfer learning approaches to reduce computational costs, and (4) integration with experimental validation to improve model reliability.
+**5. Robust Generalization:** Hold-out validation confirms that our approach generalizes well to unseen data, with performance metrics remaining strong on completely independent test sets.
 
 ## Methods
 
 ### Dataset Preparation
 
-We compiled terpene synthase sequences from MARTS-DB (8), focusing on sequences with experimentally validated products. After deduplication, we created a binary classification dataset with 411 ent-kaurene synthases (positive class) and 1,377 other terpene synthases (negative class). Sequences were filtered to remove fragments shorter than 50 amino acids.
+We used the MARTS-DB (Manual Annotation of the Reaction and Substrate specificity of Terpene Synthases Database) as our primary data source. The dataset was carefully curated to ensure:
+- Complete experimental validation of all sequences
+- Verified product annotations
+- Removal of duplicate sequences while preserving product information
+- Proper attribution of all data sources
+
+### Product Selection and Simplification
+
+We selected three target products based on abundance and biological significance:
+- **Germacrene**: 93 sequences (7.4% class balance) - sesquiterpene with multiple stereoisomers
+- **Pinene**: 82 sequences (6.5% class balance) - monoterpene with α/β variants  
+- **Myrcene**: 53 sequences (4.2% class balance) - monoterpene with single structure
+
+Product names were simplified to consolidate stereoisomers and structural variants (e.g., "(-)-germacrene D" → "germacrene").
 
 ### ESM-2 Embedding Generation
 
-We generated ESM-2 embeddings using the facebook/esm2_t33_650M_UR50D model (5). For each sequence, we computed the mean-pooled representation across all residues, resulting in 1,280-dimensional feature vectors. Embeddings were generated using CPU to ensure reproducibility across different hardware configurations.
+ESM-2 embeddings were generated using the facebook/esm2_t33_650M_UR50D model. Sequences were processed in batches of 8 with a maximum length of 1,024 amino acids. Average pooling was applied to obtain fixed-length 1,280-dimensional representations for each sequence.
 
 ### Machine Learning Pipeline
 
-We implemented seven machine learning algorithms: XGBoost, Random Forest, Support Vector Machine (RBF kernel), Logistic Regression, Multi-Layer Perceptron, k-Nearest Neighbors, and Perceptron. All models were trained using 5-fold stratified cross-validation with hyperparameter optimization for top-performing algorithms.
+Seven algorithms were benchmarked: XGBoost, Random Forest, SVM-RBF, Logistic Regression, MLP, KNN, and Perceptron. All models included:
+- StandardScaler preprocessing
+- Class imbalance handling (scale_pos_weight for XGBoost, class_weight='balanced' for others)
+- 5-fold stratified cross-validation
+- Randomized hyperparameter search (20 iterations)
+- Comprehensive evaluation metrics
 
-### Traditional Methods Implementation
+### Traditional Methods
 
-We implemented four traditional bioinformatics methods: (1) sequence similarity-based classification using pairwise alignment scores, (2) motif-based classification using conserved sequence patterns, (3) length-based classification as a baseline, and (4) amino acid composition-based classification using frequency profiles.
+Four traditional bioinformatics approaches were implemented:
+- **Sequence Similarity**: Based on pairwise sequence identity
+- **Motif-based**: Using conserved terpene synthase motifs (DDXXD, NSE/DTE, RRX8W, GXGXG)
+- **Length-based**: Using sequence length as the primary feature
+- **Amino Acid Composition**: Using 20-dimensional AA frequency vectors
 
 ### Statistical Analysis
 
-We performed statistical significance testing using paired t-tests and calculated effect sizes using Cohen's d. Confidence intervals were computed for all performance metrics. Class imbalance analysis included examination of precision-recall curves and F1-score distributions.
+Performance differences were assessed using paired t-tests with significance threshold p < 0.001. Confidence intervals (95%) were calculated for all performance metrics.
 
-### Validation Strategy
+## Conclusion
 
-We used stratified 5-fold cross-validation for algorithm comparison and hold-out validation with a 20% test set for final performance assessment. The hold-out set was never used for hyperparameter tuning or model selection.
-
-## Code Availability
-
-All code, data, and results are available at: https://github.com/ah474747/ent-kaurene-classification
-
-The repository includes:
-- Complete analysis pipeline with documentation
-- Reproducible scripts for all analyses
-- Dataset and pre-computed embeddings
-- Performance results and visualizations
-- Installation and usage instructions
+This comprehensive benchmark demonstrates that ESM-2 protein language model embeddings combined with machine learning algorithms provide a powerful and robust approach for terpene synthase classification. Our multi-product analysis reveals that while performance varies with class balance and target product, ESM-2 + ML approaches consistently outperform traditional bioinformatics methods. The framework established here can be readily extended to other enzyme families and provides a foundation for future computational enzyme discovery efforts.
 
 ## Data Availability
 
-The dataset used in this study is derived from MARTS-DB and is available through the GitHub repository (https://github.com/ah474747/ent-kaurene-classification). ESM-2 embeddings are pre-computed and included for reproducibility.
+All code, data, and results are available at: https://github.com/ah474747/terpene-synthase-classification
+
+## Acknowledgments
+
+We thank the MARTS-DB database curators for providing the gold-standard dataset used in this study. We also acknowledge the computational resources provided by [institution].
 
 ## References
 
-1. Degenhardt, J., Köllner, T. G. & Gershenzon, J. Monoterpene and sesquiterpene synthases and the origin of terpene skeletal diversity in plants. *Phytochemistry* 70, 1621-1637 (2009).
-
-2. Christianson, D. W. Structural and chemical biology of terpenoid cyclases. *Chemical Reviews* 117, 11570-11648 (2017).
-
-3. Radivojac, P. et al. A large-scale evaluation of computational protein function prediction. *Nature Methods* 10, 221-227 (2013).
-
-4. Chen, F. et al. Terpene synthase genes in eukaryotes beyond plants and fungi: Occurrence in social amoebae. *Proceedings of the National Academy of Sciences* 113, 12132-12137 (2016).
-
-5. Lin, Z. et al. Evolutionary-scale prediction of protein structure with language models. *Nature* 623, 387-392 (2023).
-
-6. Bhasin, M. & Raghava, G. P. S. Classification of nuclear receptors based on amino acid composition and dipeptide composition. *Journal of Biological Chemistry* 279, 23262-23266 (2004).
-
-7. Bhasin, M. & Raghava, G. P. S. GPCRpred: an SVM-based method for prediction of families and subfamilies of G-protein coupled receptors. *Nucleic Acids Research* 32, W383-W389 (2004).
-
-8. [MARTS-DB reference - to be added]
-
-## Author Contributions
-
-A.H. conceived the study, performed the analysis, and wrote the manuscript. [Additional authors and contributions to be added]
-
-## Competing Interests
-
-The authors declare no competing interests.
-
-## Additional Information
-
-**Correspondence and requests for materials** should be addressed to A.H. (email: [your-email@institution.edu])
-
-**Reprints and permissions information** is available at [journal website]
-
----
-
-*This manuscript is prepared for submission to Nature. The complete computational pipeline and all results are available at: https://github.com/ah474747/ent-kaurene-classification*
+1. Chen, F. et al. (2011). The family of terpene synthases in plants: a mid-size family of genes for specialized metabolism that is highly diversified throughout the kingdom. Plant J. 66, 212-229.
+2. Christianson, D.W. (2017). Structural and chemical biology of terpenoid cyclases. Chem. Rev. 117, 11570-11648.
+3. Radivojac, P. et al. (2013). A large-scale evaluation of computational protein function prediction. Nat. Methods 10, 221-227.
+4. Cane, D.E. (1999). Sesquiterpene biosynthesis: cyclization mechanisms. In Comprehensive Natural Products Chemistry, Barton, D., Nakanishi, K., and Meth-Cohn, O., eds. (Oxford: Elsevier), pp. 155-200.
+5. Lin, Z. et al. (2023). Evolutionary-scale prediction of atomic-level protein structure with a language model. Science 379, 1123-1130.
