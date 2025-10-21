@@ -1,0 +1,9 @@
+{
+  "model_name": "facebook/esm2_t33_650M_UR50D",
+  "n_sequences": 1788,
+  "embedding_dim": 1280,
+  "generation_time": 2159.691113948822,
+  "device": "cpu",
+  "batch_size": 8,
+  "max_length": 1024
+}
