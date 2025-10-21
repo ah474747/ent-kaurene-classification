@@ -1,169 +1,171 @@
-# Ent-Kaurene Synthase Classification using ESM-2 Embeddings
+# Machine Learning Classification of Terpene Synthases using ESM-2 Protein Language Model Embeddings
 
-This repository contains the computational pipeline for predicting ent-kaurene synthase function from protein sequences using ESM-2 embeddings and machine learning algorithms.
+A comprehensive benchmark study comparing machine learning approaches using ESM-2 embeddings against traditional sequence-based methods for binary classification of terpene synthases from the MARTS-DB dataset.
 
-## 📋 Overview
+## Overview
 
-This study benchmarks machine learning approaches against traditional sequence-based methods for binary classification of ent-kaurene synthases from the MARTS-DB dataset. We demonstrate that ESM-2 embeddings combined with XGBoost significantly outperform traditional bioinformatics methods.
+This repository contains a complete pipeline for binary classification of terpene synthases using state-of-the-art protein language model embeddings. We benchmark ESM-2 embeddings combined with machine learning algorithms against traditional bioinformatics methods across three different terpene products: germacrene, pinene, and myrcene.
 
-## 🎯 Key Results
+## Key Results
 
-- **ESM-2 + XGBoost**: F1-Score = 0.907, Accuracy = 0.920, AUC-PR = 0.947
-- **Best traditional method**: Amino acid composition (F1-Score = 0.626)
-- **Hold-out validation**: AUC-PR = 0.947 (consistent with cross-validation)
-- **Improvement over best traditional**: 30% better F1-Score
+- **Germacrene Classification**: SVM-RBF achieves F1-score = 0.591, AUC-PR = 0.645
+- **Pinene Classification**: KNN achieves F1-score = 0.663, AUC-PR = 0.711  
+- **Myrcene Classification**: XGBoost achieves F1-score = 0.439, AUC-PR = 0.356
 
-## 🚀 Quick Start
+ESM-2 + ML approaches consistently outperform traditional methods (24-77% improvement in F1-score).
+
+## Dataset
+
+**Clean MARTS-DB Dataset**: 1,262 deduplicated terpene synthase sequences with verified experimental validation
+- Germacrene: 93 sequences (7.4% class balance)
+- Pinene: 82 sequences (6.5% class balance)  
+- Myrcene: 53 sequences (4.2% class balance)
+
+All sequences are from the MARTS-DB (Manual Annotation of the Reaction and Substrate specificity of Terpene Synthases Database) with complete experimental validation and proper data provenance.
+
+## Quick Start
 
 ### Prerequisites
 
 ```bash
-# Python 3.8+
 pip install -r requirements.txt
 ```
 
-### Running the Complete Pipeline
+### Run Complete Pipeline
 
 ```bash
-# 1. Generate ESM-2 embeddings (requires ~36 minutes on CPU)
-python scripts/generate_embeddings.py
-
-# 2. Run ML benchmark with 7 algorithms
-python scripts/ent_kaurene_benchmark.py
-
-# 3. Run hold-out validation
-python scripts/holdout_validation.py
-
-# 4. Run traditional methods comparison
-python scripts/corrected_traditional_benchmark.py
+python scripts/run_complete_pipeline.py
 ```
 
-## 📁 Repository Structure
+This will:
+1. Generate ESM-2 embeddings for all sequences
+2. Run 7-algorithm ML benchmarks for all three products
+3. Compare against traditional methods
+4. Perform hold-out validation
+5. Generate comprehensive results
 
-```
-Ent_Kaurene_Binary_Classifier/
-├── README.md                           # This file
-├── requirements.txt                    # Python dependencies
-├── data/                               # Dataset and embeddings
-│   ├── ent_kaurene_binary_dataset.csv  # Main dataset (1,788 sequences)
-│   └── esm2_embeddings.npy            # ESM-2 embeddings (1,788 × 1,280)
-├── scripts/                            # Analysis scripts
-│   ├── generate_embeddings.py          # ESM-2 embedding generation
-│   ├── ent_kaurene_benchmark.py        # ML algorithm benchmark
-│   ├── holdout_validation.py           # Hold-out validation
-│   ├── corrected_traditional_benchmark.py  # Traditional methods comparison
-│   ├── statistical_analysis.py         # Statistical analysis
-│   └── dataset_characterization.py     # Dataset analysis
-└── results/                            # Output files
-    ├── *.csv                          # Performance tables
-    ├── *.json                         # Detailed results
-    └── *.png                          # Visualization figures
+### Individual Components
+
+**Generate ESM-2 Embeddings:**
+```bash
+python scripts/generate_germacrene_embeddings.py
 ```
 
-## 📊 Dataset Information
+**Run ML Benchmarks:**
+```bash
+python scripts/germacrene_benchmark.py
+python scripts/pinene_benchmark.py  
+python scripts/myrcene_benchmark.py
+```
 
-- **Source**: MARTS-DB (deduplicated)
-- **Total sequences**: 1,788
-- **Ent-kaurene sequences**: 411 (23.0%)
-- **Non-ent-kaurene sequences**: 1,377 (77.0%)
-- **Sequence length**: 66-1,613 amino acids (mean: 622.7 ± 194.4)
-- **Organism diversity**: 1,781 unique organism patterns
+**Traditional Methods Comparison:**
+```bash
+python scripts/germacrene_traditional_benchmark.py
+```
 
-## 🔬 Methodology
+**Hold-out Validation:**
+```bash
+python scripts/germacrene_holdout_validation.py
+```
 
-### 1. Data Preparation
-- Binary classification: ent-kaurene synthase (positive) vs. all other terpene synthases (negative)
-- Deduplication while preserving product information
-- Stratified hold-out split (80% train, 20% test)
+## Repository Structure
 
-### 2. Feature Generation
-- ESM-2 embeddings (facebook/esm2_t33_650M_UR50D)
-- 1,280-dimensional vectors per sequence
-- Generated using CPU (compatible with most systems)
+```
+├── data/
+│   ├── clean_MARTS_DB_binary_dataset.csv      # Main dataset with binary labels
+│   ├── clean_MARTS_DB_deduplicated.csv        # Deduplicated sequences
+│   ├── original_MARTS_DB_reactions.csv        # Original MARTS-DB data
+│   └── germacrene_esm2_embeddings.npy         # ESM-2 embeddings (1,262 × 1,280)
+├── results/
+│   ├── germacrene_benchmark_results.json      # ML benchmark results
+│   ├── pinene_benchmark_results.json          # ML benchmark results
+│   ├── myrcene_benchmark_results.json         # ML benchmark results
+│   ├── germacrene_traditional_benchmark_results.json  # Traditional methods
+│   └── germacrene_holdout_validation_results.json     # Hold-out validation
+├── scripts/
+│   ├── generate_germacrene_embeddings.py      # ESM-2 embedding generation
+│   ├── germacrene_benchmark.py                # ML benchmark for germacrene
+│   ├── pinene_benchmark.py                    # ML benchmark for pinene
+│   ├── myrcene_benchmark.py                   # ML benchmark for myrcene
+│   ├── germacrene_traditional_benchmark.py    # Traditional methods comparison
+│   └── germacrene_holdout_validation.py       # Hold-out validation
+├── MANUSCRIPT_DRAFT.md                        # Complete manuscript
+├── README.md                                  # This file
+└── requirements.txt                           # Python dependencies
+```
 
-### 3. Machine Learning Benchmark
-Seven algorithms tested:
-- **XGBoost Classifier** (best performer)
-- Random Forest Classifier
-- Support Vector Machine (RBF kernel)
-- Logistic Regression
-- Multi-Layer Perceptron
-- k-Nearest Neighbors
-- Perceptron
+## Methods
 
-### 4. Traditional Methods Comparison
-- Sequence similarity-based classification
-- Motif-based classification
-- Length-based classification (baseline)
-- Amino acid composition-based classification
+### Data Processing
+- **Deduplication**: Sequences deduplicated by amino acid sequence with product consolidation
+- **Product Simplification**: Stereoisomers consolidated (e.g., "(-)-germacrene D" → "germacrene")
+- **Quality Control**: All sequences verified from MARTS-DB with experimental validation
 
-### 5. Validation Strategy
-- 5-fold stratified cross-validation
-- Hold-out validation (20% unseen test set)
-- Statistical significance testing
-- Class imbalance analysis
+### ESM-2 Embeddings
+- **Model**: facebook/esm2_t33_650M_UR50D
+- **Processing**: Batch size 8, max length 1,024 amino acids
+- **Output**: 1,280-dimensional average-pooled embeddings
 
-## 📈 Results Summary
+### Machine Learning Pipeline
+- **Algorithms**: XGBoost, Random Forest, SVM-RBF, Logistic Regression, MLP, KNN, Perceptron
+- **Preprocessing**: StandardScaler with class imbalance handling
+- **Validation**: 5-fold stratified cross-validation
+- **Hyperparameter Tuning**: Randomized search (20 iterations)
+- **Metrics**: F1-score, AUC-PR, AUC-ROC, Accuracy, Precision, Recall
 
-| Method | F1-Score | Accuracy | AUC-PR | AUC-ROC |
-|--------|----------|----------|--------|---------|
-| **ESM-2 + XGBoost** | **0.907** | **0.920** | **0.947** | **0.983** |
-| AA Composition | 0.626 | 0.779 | N/A | N/A |
-| Motif-based | 0.574 | 0.846 | N/A | N/A |
-| Length-based | 0.453 | 0.628 | N/A | N/A |
-| Sequence Similarity | 0.373 | 0.229 | N/A | N/A |
+### Traditional Methods
+- **Sequence Similarity**: Pairwise sequence identity
+- **Motif-based**: Conserved terpene synthase motifs (DDXXD, NSE/DTE, RRX8W, GXGXG)
+- **Length-based**: Sequence length as primary feature
+- **Amino Acid Composition**: 20-dimensional AA frequency vectors
 
-## 🔧 Computational Requirements
+## Results Summary
 
-### Minimum System Requirements
-- **RAM**: 8 GB (32 GB recommended)
-- **Storage**: 2 GB free space
-- **CPU**: Multi-core processor (embedding generation is CPU-intensive)
+| Product | Best Model | F1-Score | AUC-PR | Class Balance |
+|---------|------------|----------|--------|---------------|
+| Germacrene | SVM-RBF | 0.591 | 0.645 | 7.4% |
+| Pinene | KNN | 0.663 | 0.711 | 6.5% |
+| Myrcene | XGBoost | 0.439 | 0.356 | 4.2% |
 
-### Runtime Estimates
-- ESM-2 embedding generation: ~36 minutes (1,788 sequences)
-- ML benchmark: ~10 minutes
-- Hold-out validation: ~2 minutes
-- Traditional methods: ~5 minutes
+**Key Findings:**
+- ESM-2 embeddings significantly outperform traditional methods (24-77% improvement)
+- Class balance strongly impacts performance
+- Different algorithms excel for different products
+- Robust generalization confirmed by hold-out validation
 
-## 📚 Citation
+## Citation
 
-If you use this code or dataset, please cite:
+If you use this work, please cite:
 
 ```bibtex
-@article{horwitz2024entkaurene,
-  title={Machine Learning Classification of Ent-Kaurene Synthases using ESM-2 Protein Language Model Embeddings},
-  author={Horwitz, Andrew and [Co-authors]},
-  journal={Nature},
-  year={2024}
+@article{horwitz2024terpene,
+  title={Machine Learning Classification of Terpene Synthases using ESM-2 Protein Language Model Embeddings: A Multi-Product Benchmark Study},
+  author={Horwitz, Andrew},
+  journal={[Journal]},
+  year={2024},
+  url={https://github.com/ah474747/terpene-synthase-classification}
 }
 ```
 
-## 🤝 Contributing
+## License
 
-We welcome contributions! Please:
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
+MIT License - see LICENSE file for details.
 
-## 📄 License
+## Data Availability
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+- **MARTS-DB**: [https://tpsdb.uochb.cas.cz/](https://tpsdb.uochb.cas.cz/)
+- **ESM-2 Model**: [https://huggingface.co/facebook/esm2_t33_650M_UR50D](https://huggingface.co/facebook/esm2_t33_650M_UR50D)
 
-## 🔗 Related Work
+## Acknowledgments
 
-- [ESM-2 Paper](https://www.biorxiv.org/content/10.1101/2022.07.20.500902v2)
-- [MARTS-DB Database](https://www.marts-db.org/)
-- [XGBoost Documentation](https://xgboost.readthedocs.io/)
+- MARTS-DB database curators for providing the gold-standard dataset
+- Meta AI for the ESM-2 protein language model
+- The scientific community for open-source bioinformatics tools
 
-## 📞 Contact
+## Contact
 
-For questions or issues, please:
-- Open an issue on GitHub
-- Contact: [your-email@institution.edu]
+For questions or collaboration, please contact: [your-email@domain.com]
 
-## 🏷️ Version
+---
 
-Current version: 1.0.0
-Last updated: October 2024
+**Note**: This repository contains only clean, verified data from MARTS-DB with complete experimental validation. All previous analyses using compromised datasets have been removed to maintain scientific rigor and reproducibility.
