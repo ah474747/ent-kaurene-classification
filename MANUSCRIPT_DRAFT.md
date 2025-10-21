@@ -102,7 +102,7 @@ We used stratified 5-fold cross-validation for algorithm comparison and hold-out
 
 ## Code Availability
 
-All code, data, and results are available at: https://github.com/your-username/ent-kaurene-classification
+All code, data, and results are available at: https://github.com/ah474747/ent-kaurene-classification
 
 The repository includes:
 - Complete analysis pipeline with documentation
@@ -113,7 +113,7 @@ The repository includes:
 
 ## Data Availability
 
-The dataset used in this study is derived from MARTS-DB and is available through the GitHub repository. ESM-2 embeddings are pre-computed and included for reproducibility.
+The dataset used in this study is derived from MARTS-DB and is available through the GitHub repository (https://github.com/ah474747/ent-kaurene-classification). ESM-2 embeddings are pre-computed and included for reproducibility.
 
 ## References
 
@@ -149,4 +149,4 @@ The authors declare no competing interests.
 
 ---
 
-*This manuscript is prepared for submission to Nature. The complete computational pipeline and all results are available at: https://github.com/your-username/ent-kaurene-classification*
+*This manuscript is prepared for submission to Nature. The complete computational pipeline and all results are available at: https://github.com/ah474747/ent-kaurene-classification*
