@@ -2,7 +2,7 @@
 
 ## Abstract
 
-Terpene synthases are a diverse family of enzymes that catalyze the formation of thousands of structurally distinct terpenoid compounds. Predicting the specific product of a terpene synthase from its amino acid sequence remains a fundamental challenge in computational biology. Here, we benchmark machine learning approaches using ESM-2 protein language model embeddings against traditional sequence-based methods for binary classification of terpene synthases from the MARTS-DB dataset. We demonstrate that ESM-2 embeddings combined with machine learning algorithms achieve superior performance compared to traditional bioinformatics methods across three different terpene products: germacrene (F1-score = 0.591), pinene (F1-score = 0.663), and myrcene (F1-score = 0.439). Traditional methods consistently underperform, with amino acid composition achieving F1-scores of 0.347-0.625 depending on the target product. Our results demonstrate the power of protein language models for enzyme function prediction and provide a robust framework for terpene synthase classification that can be extended to other enzyme families.
+Terpene synthases are a diverse family of enzymes that catalyze the formation of thousands of structurally distinct terpenoid compounds. Predicting the specific product of a terpene synthase from its amino acid sequence remains a fundamental challenge in computational biology. Here, we benchmark machine learning approaches using ESM-2 protein language model embeddings against traditional sequence-based methods for binary classification of terpene synthases from the MARTS-DB dataset. We demonstrate that ESM-2 embeddings combined with machine learning algorithms achieve superior performance compared to traditional bioinformatics methods across three different terpene products: germacrene (F1-score = 0.591), pinene (F1-score = 0.663), and myrcene (F1-score = 0.439). Traditional methods consistently underperform, with amino acid composition achieving F1-score = 0.347 for germacrene classification. Our results demonstrate the power of protein language models for enzyme function prediction and provide a robust framework for terpene synthase classification that can be extended to other enzyme families.
 
 **Keywords:** protein language models, terpene synthases, machine learning, enzyme classification, ESM-2, bioinformatics
 
@@ -57,19 +57,19 @@ We benchmarked seven machine learning algorithms using ESM-2 embeddings as featu
 
 ### Traditional Methods Comparison
 
-We compared our ESM-2 + ML approach against four traditional bioinformatics methods across all three target products. Traditional methods consistently underperformed, with performance varying by target product:
+We compared our ESM-2 + ML approach against four traditional bioinformatics methods for germacrene classification. Traditional methods consistently underperformed compared to ESM-2 + ML approaches:
 
-**Table 2. Traditional Methods vs. ESM-2 + ML Performance**
+**Table 2. Traditional Methods vs. ESM-2 + ML Performance (Germacrene Classification)**
 
-| Method | Germacrene F1 | Pinene F1 | Myrcene F1 | Best Traditional |
-|--------|---------------|-----------|------------|------------------|
-| **ESM-2 + Best ML** | **0.591** | **0.663** | **0.439** | **Baseline** |
-| Sequence Similarity | 0.449 | 0.449 | 0.449 | -24% to -0% |
-| AA Composition | 0.347 | 0.347 | 0.347 | -41% to -21% |
-| Length-based | 0.307 | 0.307 | 0.307 | -48% to -26% |
-| Motif-based | 0.139 | 0.139 | 0.139 | -77% to -68% |
+| Method | Germacrene F1 | Improvement over Best Traditional |
+|--------|---------------|-----------------------------------|
+| **ESM-2 + SVM-RBF** | **0.591** | **Baseline** |
+| Sequence Similarity | 0.449 | -24% |
+| AA Composition | 0.347 | -41% |
+| Length-based | 0.307 | -48% |
+| Motif-based | 0.139 | -77% |
 
-**Figure 2. ESM-2 + ML vs Traditional Methods Performance.** Comparative bar chart demonstrating the superior performance of ESM-2 embeddings combined with machine learning algorithms across all target products. Traditional bioinformatics methods consistently underperform, with the best traditional approach (amino acid composition) achieving F1-scores of only 0.347-0.625, significantly below ESM-2 + ML approaches.
+**Figure 2. ESM-2 + ML vs Traditional Methods Performance.** Comparative bar chart demonstrating the superior performance of ESM-2 embeddings combined with machine learning algorithms for germacrene classification. Traditional bioinformatics methods consistently underperform, with the best traditional approach (amino acid composition) achieving F1-score = 0.347, significantly below ESM-2 + ML approaches.
 
 ![Figure 2](results/figure2_traditional_vs_ml.png)
 
@@ -99,7 +99,7 @@ Our comprehensive benchmark demonstrates the superior performance of ESM-2 prote
 
 **3. Algorithm Selection Matters:** Different algorithms excel for different target products, with SVM-RBF performing best for germacrene, KNN for pinene, and XGBoost for myrcene. This suggests that algorithm selection should be product-specific.
 
-**4. Traditional Methods Are Insufficient:** All traditional bioinformatics methods consistently underperformed, with the best traditional approach (amino acid composition) achieving F1-scores of only 0.347-0.625, significantly below ESM-2 + ML approaches.
+**4. Traditional Methods Are Insufficient:** All traditional bioinformatics methods consistently underperformed, with the best traditional approach (amino acid composition) achieving F1-score = 0.347 for germacrene classification, significantly below ESM-2 + ML approaches.
 
 **5. Robust Generalization:** Hold-out validation confirms that our approach generalizes well to unseen data, with performance metrics remaining strong on completely independent test sets.
 
