@@ -51,6 +51,10 @@ We benchmarked seven machine learning algorithms using ESM-2 embeddings as featu
 | MLP | 0.442 | 0.499 | 0.055 | 0.625 (Pinene) |
 | Perceptron | 0.422 | 0.442 | 0.177 | 0.446 (Pinene) |
 
+**Figure 1. Machine Learning Algorithm Performance Comparison.** Bar chart showing F1-scores across seven algorithms for three target products (germacrene, pinene, myrcene). Different algorithms excel for different products, with KNN performing best for pinene (F1=0.663) and SVM-RBF for germacrene (F1=0.591). Performance correlates with class balance, with better-balanced datasets showing superior results.
+
+![Figure 1](results/figure1_algorithm_comparison.png)
+
 ### Traditional Methods Comparison
 
 We compared our ESM-2 + ML approach against four traditional bioinformatics methods across all three target products. Traditional methods consistently underperformed, with performance varying by target product:
@@ -65,9 +69,21 @@ We compared our ESM-2 + ML approach against four traditional bioinformatics meth
 | Length-based | 0.307 | 0.307 | 0.307 | -48% to -26% |
 | Motif-based | 0.139 | 0.139 | 0.139 | -77% to -68% |
 
+**Figure 2. ESM-2 + ML vs Traditional Methods Performance.** Comparative bar chart demonstrating the superior performance of ESM-2 embeddings combined with machine learning algorithms across all target products. Traditional bioinformatics methods consistently underperform, with the best traditional approach (amino acid composition) achieving F1-scores of only 0.347-0.625, significantly below ESM-2 + ML approaches.
+
+![Figure 2](results/figure2_traditional_vs_ml.png)
+
 ### Hold-out Validation
 
 We performed hold-out validation on the germacrene dataset (80/20 split) to assess generalization to unseen data. The XGBoost model achieved F1-score = 0.545, AUC-PR = 0.580, and AUC-ROC = 0.931 on the hold-out test set, confirming robust performance on completely unseen sequences.
+
+**Figure 3. Class Balance Impact on Performance.** (A) Scatter plot showing the relationship between class balance and best F1-score performance. Germacrene (7.4% class balance) and pinene (6.5%) achieve superior performance compared to myrcene (4.2%). (B) Pie chart showing dataset composition with 1,262 total sequences distributed across target products and other terpene synthases.
+
+![Figure 3](results/figure3_class_balance_impact.png)
+
+**Figure 4. Hold-out Validation Results.** Bar chart showing comprehensive evaluation metrics for the XGBoost model on the hold-out test set (germacrene classification). The model achieves robust performance across all metrics, with AUC-ROC = 0.931 and F1-score = 0.545, confirming good generalization to unseen data.
+
+![Figure 4](results/figure4_holdout_validation.png)
 
 ### Statistical Analysis
 
