@@ -69,7 +69,7 @@ We compared our ESM-2 + ML approach against four traditional bioinformatics meth
 | Length-based | 0.307 | -48% |
 | Motif-based | 0.139 | -77% |
 
-**Figure 2. ESM-2 + ML vs Traditional Methods Performance.** Comparative bar chart demonstrating the superior performance of ESM-2 embeddings combined with machine learning algorithms for germacrene classification. Traditional bioinformatics methods consistently underperform, with the best traditional approach (amino acid composition) achieving F1-score = 0.347, significantly below ESM-2 + ML approaches.
+**Figure 2. ESM-2 + ML vs Traditional Methods Performance.** Comparative bar chart demonstrating the superior performance of ESM-2 embeddings combined with machine learning algorithms for germacrene classification. Traditional bioinformatics methods consistently underperform, with the best traditional approach (amino acid composition) achieving F1-score = 0.347, significantly below ESM-2 + ML approaches. Note: Traditional methods benchmark was only performed for germacrene classification due to computational constraints.
 
 ![Figure 2](results/figure2_traditional_vs_ml.png)
 

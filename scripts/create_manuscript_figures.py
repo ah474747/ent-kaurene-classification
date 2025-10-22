@@ -83,46 +83,40 @@ def create_figure1_algorithm_comparison():
     plt.close()
 
 def create_figure2_traditional_vs_ml():
-    """Figure 2: Traditional Methods vs ESM-2 + ML Performance"""
+    """Figure 2: Traditional Methods vs ESM-2 + ML Performance (Germacrene Only)"""
     
-    # Data for traditional vs ML comparison
-    methods = ['ESM-2 + Best ML', 'Sequence\nSimilarity', 'AA\nComposition', 'Length-\nbased', 'Motif-\nbased']
+    # Data for traditional vs ML comparison (Germacrene only)
+    methods = ['ESM-2 + SVM-RBF', 'Sequence\nSimilarity', 'AA\nComposition', 'Length-\nbased', 'Motif-\nbased']
     germacrene_f1 = [0.591, 0.449, 0.347, 0.307, 0.139]
-    pinene_f1 = [0.663, 0.449, 0.347, 0.307, 0.139]
-    myrcene_f1 = [0.439, 0.449, 0.347, 0.307, 0.139]
     
     # Create figure
     fig, ax = plt.subplots(1, 1, figsize=(10, 6))
     
     x = np.arange(len(methods))
-    width = 0.25
     
-    bars1 = ax.bar(x - width, germacrene_f1, width, label='Germacrene', alpha=0.8, color='#2E8B57')
-    bars2 = ax.bar(x, pinene_f1, width, label='Pinene', alpha=0.8, color='#4169E1')
-    bars3 = ax.bar(x + width, myrcene_f1, width, label='Myrcene', alpha=0.8, color='#DC143C')
+    # Create bars with different colors
+    colors = ['#32CD32', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4']
+    bars = ax.bar(x, germacrene_f1, alpha=0.8, color=colors)
     
     ax.set_xlabel('Classification Method', fontsize=12)
     ax.set_ylabel('F1-Score', fontsize=12)
-    ax.set_title('ESM-2 + ML vs Traditional Methods Performance', fontsize=14, fontweight='bold')
+    ax.set_title('ESM-2 + ML vs Traditional Methods Performance\n(Germacrene Classification)', fontsize=14, fontweight='bold')
     ax.set_xticks(x)
     ax.set_xticklabels(methods)
-    ax.legend()
     ax.grid(True, alpha=0.3)
-    ax.set_ylim(0, 0.8)
+    ax.set_ylim(0, 0.7)
     
-    # Highlight ESM-2 + ML bars
-    bars1[0].set_color('#32CD32')
-    bars2[0].set_color('#1E90FF')
-    bars3[0].set_color('#FF6347')
+    # Add value labels on bars
+    for i, (bar, value) in enumerate(zip(bars, germacrene_f1)):
+        height = bar.get_height()
+        ax.text(bar.get_x() + bar.get_width()/2., height + 0.01,
+               f'{value:.3f}', ha='center', va='bottom', fontsize=10, fontweight='bold')
     
-    # Add improvement percentages
+    # Add improvement percentages for traditional methods
     for i in range(1, len(methods)):
-        improvement_g = ((germacrene_f1[0] - germacrene_f1[i]) / germacrene_f1[i]) * 100
-        improvement_p = ((pinene_f1[0] - pinene_f1[i]) / pinene_f1[i]) * 100
-        improvement_m = ((myrcene_f1[0] - myrcene_f1[i]) / myrcene_f1[i]) * 100
-        
-        ax.text(i - width, max(germacrene_f1[i], pinene_f1[i], myrcene_f1[i]) + 0.05,
-               f'+{improvement_g:.0f}%', ha='center', va='bottom', fontsize=8, fontweight='bold')
+        improvement = ((germacrene_f1[0] - germacrene_f1[i]) / germacrene_f1[i]) * 100
+        ax.text(i, germacrene_f1[i] + 0.05,
+               f'+{improvement:.0f}%', ha='center', va='bottom', fontsize=8, fontweight='bold', color='red')
     
     plt.tight_layout()
     plt.savefig('results/figure2_traditional_vs_ml.png', dpi=300, bbox_inches='tight')
