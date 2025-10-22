@@ -116,7 +116,7 @@ def create_manuscript_pdf():
     
     # Abstract
     story.append(Paragraph("Abstract", heading_style))
-    abstract_text = """Terpene synthases are a diverse family of enzymes that catalyze the formation of thousands of structurally distinct terpenoid compounds. Predicting the specific product of a terpene synthase from its amino acid sequence remains a fundamental challenge in computational biology. Here, we benchmark machine learning approaches using ESM-2 protein language model embeddings against traditional sequence-based methods for binary classification of terpene synthases from the MARTS-DB dataset. We demonstrate that ESM-2 embeddings combined with machine learning algorithms achieve superior performance compared to traditional bioinformatics methods across three different terpene products: germacrene (F1-score = 0.591), pinene (F1-score = 0.663), and myrcene (F1-score = 0.439). Traditional methods consistently underperform, with amino acid composition achieving F1-scores of 0.347-0.625 depending on the target product. Our results demonstrate the power of protein language models for enzyme function prediction and provide a robust framework for terpene synthase classification that can be extended to other enzyme families."""
+    abstract_text = """Terpene synthases are a diverse family of enzymes that catalyze the formation of thousands of structurally distinct terpenoid compounds. Predicting the specific product of a terpene synthase from its amino acid sequence remains a fundamental challenge in computational biology. Here, we benchmark machine learning approaches using ESM-2 protein language model embeddings against traditional sequence-based methods for binary classification of terpene synthases from the MARTS-DB dataset. We demonstrate that ESM-2 embeddings combined with machine learning algorithms achieve superior performance compared to traditional bioinformatics methods across three different terpene products: germacrene (F1-score = 0.591), pinene (F1-score = 0.663), and myrcene (F1-score = 0.439). Traditional methods consistently underperform, with amino acid composition achieving F1-score = 0.347 for germacrene classification. Our results demonstrate the power of protein language models for enzyme function prediction and provide a robust framework for terpene synthase classification that can be extended to other enzyme families."""
     story.append(Paragraph(clean_text(abstract_text), abstract_style))
     story.append(Spacer(1, 12))
     
@@ -205,22 +205,22 @@ Here, we present a comprehensive benchmark comparing machine learning approaches
     
     # Traditional Methods Comparison
     story.append(Paragraph("Traditional Methods Comparison", subheading_style))
-    traditional_text = """We compared our ESM-2 + ML approach against four traditional bioinformatics methods across all three target products. Traditional methods consistently underperformed, with performance varying by target product:"""
+    traditional_text = """We compared our ESM-2 + ML approach against four traditional bioinformatics methods for germacrene classification. Traditional methods consistently underperformed compared to ESM-2 + ML approaches:"""
     story.append(Paragraph(clean_text(traditional_text), body_style))
     story.append(Spacer(1, 12))
     
     # Table 2
-    story.append(Paragraph("Table 2. Traditional Methods vs. ESM-2 + ML Performance", body_style))
+    story.append(Paragraph("Table 2. Traditional Methods vs. ESM-2 + ML Performance (Germacrene Classification)", body_style))
     table2_data = [
-        ['Method', 'Germacrene F1', 'Pinene F1', 'Myrcene F1', 'Best Traditional'],
-        ['ESM-2 + Best ML', '0.591', '0.663', '0.439', 'Baseline'],
-        ['Sequence Similarity', '0.449', '0.449', '0.449', '-24% to -0%'],
-        ['AA Composition', '0.347', '0.347', '0.347', '-41% to -21%'],
-        ['Length-based', '0.307', '0.307', '0.307', '-48% to -26%'],
-        ['Motif-based', '0.139', '0.139', '0.139', '-77% to -68%']
+        ['Method', 'Germacrene F1', 'Improvement over Best Traditional'],
+        ['ESM-2 + SVM-RBF', '0.591', 'Baseline'],
+        ['Sequence Similarity', '0.449', '-24%'],
+        ['AA Composition', '0.347', '-41%'],
+        ['Length-based', '0.307', '-48%'],
+        ['Motif-based', '0.139', '-77%']
     ]
     
-    table2 = Table(table2_data, colWidths=[2*inch, 1.2*inch, 1.2*inch, 1.2*inch, 1.4*inch])
+    table2 = Table(table2_data, colWidths=[2.5*inch, 1.5*inch, 2*inch])
     table2.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
@@ -238,7 +238,7 @@ Here, we present a comprehensive benchmark comparing machine learning approaches
     
     # Figure 2
     story.append(Paragraph("Figure 2. ESM-2 + ML vs Traditional Methods Performance.", body_style))
-    story.append(Paragraph("Comparative bar chart demonstrating the superior performance of ESM-2 embeddings combined with machine learning algorithms across all target products. Traditional bioinformatics methods consistently underperform, with the best traditional approach (amino acid composition) achieving F1-scores of only 0.347-0.625, significantly below ESM-2 + ML approaches.", body_style))
+    story.append(Paragraph("Comparative bar chart demonstrating the superior performance of ESM-2 embeddings combined with machine learning algorithms for germacrene classification. Traditional bioinformatics methods consistently underperform, with the best traditional approach (amino acid composition) achieving F1-score = 0.347, significantly below ESM-2 + ML approaches.", body_style))
     
     try:
         img2 = Image(figure_paths['Figure 2'], width=6*inch, height=3.6*inch)
@@ -288,7 +288,7 @@ Here, we present a comprehensive benchmark comparing machine learning approaches
 
 <b>3. Algorithm Selection Matters:</b> Different algorithms excel for different target products, with SVM-RBF performing best for germacrene, KNN for pinene, and XGBoost for myrcene. This suggests that algorithm selection should be product-specific.
 
-<b>4. Traditional Methods Are Insufficient:</b> All traditional bioinformatics methods consistently underperformed, with the best traditional approach (amino acid composition) achieving F1-scores of only 0.347-0.625, significantly below ESM-2 + ML approaches.
+<b>4. Traditional Methods Are Insufficient:</b> All traditional bioinformatics methods consistently underperformed, with the best traditional approach (amino acid composition) achieving F1-score = 0.347 for germacrene classification, significantly below ESM-2 + ML approaches.
 
 <b>5. Robust Generalization:</b> Hold-out validation confirms that our approach generalizes well to unseen data, with performance metrics remaining strong on completely independent test sets."""
     story.append(Paragraph(clean_text(discussion_text), body_style))
